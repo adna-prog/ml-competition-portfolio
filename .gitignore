@@ -1,0 +1,19 @@
+# Données volumineuses (train/test compétition)
+competitions/*/data/
+**/train.csv
+**/test.csv
+
+# Artefacts binaires intermédiaires (OOF volumineux) — garder les submissions
+competitions/*/results/*.npy
+*.npy
+
+# Environnement et caches
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.kaggle/
+.runpod/
