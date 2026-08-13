@@ -1,0 +1,13 @@
+{
+  "id": "adnaneel/s6e8-stacking-meta-features-reproduction",
+  "title": "s6e8 stacking meta features reproduction",
+  "code_file": "notebook_gagnant_reproduction.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "competition_sources": ["playground-series-s6e8"],
+  "dataset_sources": ["adnaneel/s6e8-meta-features"],
+  "kernel_sources": []
+}

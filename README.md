@@ -34,10 +34,10 @@ ml-competition-portfolio/
 ## 🏆 Compétitions
 | Compétition | Type | Score | Rang | Leçons clés |
 |-------------|------|-------|------|-------------|
-| Predicting Smartphone Addiction (S6E8) | Tabulaire | 0.96608 | 670e/1677 | Stacking > blending; FE rejeté; seeds = bruit |
+| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057** | ~top | **Stacking massif + poly**; diversité > perfection |
 
 ## 🚀 Roadmap
-- [x] Compétition #1 : Smartphone Addiction (0.96608)
-- [ ] Maîtriser le stacking avancé (L2 GBDT + CatBoost)
+- [x] Compétition #1 : Smartphone Addiction (**0.97057**, quasi top-1)
+- [x] Maîtriser le stacking massif (meta-features publiques + polynomiales + GPU)
 - [ ] Compétition #2 gratuite (Playground time series ou multi-class)
 - [ ] Compétition à prize (tabulaire ou time series)
