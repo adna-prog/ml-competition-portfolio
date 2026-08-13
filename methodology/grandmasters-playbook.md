@@ -27,8 +27,8 @@ Synthèse des techniques des Grandmasters Kaggle (NVIDIA KGMoN, cdeotte, etc.).
 
 ## 5. Blending vs Stacking
 - **Blending** : moyenne pondérée (simple, robuste).
-- **Stacking** : méta-modèle (L2) sur les OOF des L1 → apprend quand chaque modèle est bon.
-- Le stacking donne souvent un boost immédiat.
+- **Stacking** : méta-modèle (L2) sur les OOF des L1 ; estimer son gain avec CV nested/holdout final.
+- Une simple re-CV des OOF peut être optimiste si les folds externes ont influencé les modèles L1.
 
 ## 6. Adversarial validation
 - Classifieur train-vs-test sur les features.

@@ -8,16 +8,16 @@ Fichier : `templates/competition_kit.py`.
 2. **Charger les données** : modifier `load_data()`.
 3. **Lancer le baseline** : `cv_oof(xgb_factory, X, y, X_test)`.
 4. **Étendre la diversité** : ajouter des configs de modèles (depth/lr variés, features variées).
-5. **Stacking massif** : `stack_massif(OOF, TEST_PRED, y)` → LA technique gagnante.
+5. **Stacking propre** : `stack_massif(OOF, TEST_PRED, y)` ; évaluer avec CV nested/holdout.
 
-## Workflow éprouvé (S6E8 → 0.97057)
+## Workflow observé sur S6E8 (0.97057 assisté ; 0.96630 autonome)
 1. **CV leakage-free** : toute preprocessing fit DANS le fold (jamais sur full train).
 2. **Baseline solide tôt** : XGB/LGB/Cat, on-the-board rapidement.
 3. **Diversifier les modèles N1** : 3 familles GBDT × configs + features variées + NN.
-4. **Stacking massif** : OOF des N1 + PolynomialFeatures(deg2) + XGBoost lent GPU.
-   - ~15 meta-features optimal (plus = redondance, moins = sous-optimal).
-   - Ne pas retirer les features "faibles" — elles apportent de la diversité.
-5. **Confirmer sur leaderboard** avant de compter un gain.
+4. **Stacking** : OOF des N1 + méta-modèle ; CV nested ou holdout final intact.
+   - Les 15 meta-features publiques ont été optimales sur S6E8, pas une règle universelle.
+   - Mesurer diversité et ablations ; ne pas compter un gain sous le bruit CV.
+5. **Séparer les preuves** : autonome, assisté par artefacts publics, public LB, private LB.
 
 ## Pièges GBDT (rappels)
 - **LightGBM 4.x** : colonnes catégorielles en dtype `category` (pas `str`) avec `categorical_feature`.

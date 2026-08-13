@@ -1,36 +1,40 @@
-# Store Sales Time Series Forecasting — Mission d'entraînement #2
+# Store Sales Time Series Forecasting — prototype audité
 
-Compétition passée d'entraînement (données accessibles). Objectif : apprendre le forecasting
-temporel hiérarchique retail. Pas de classement en jeu (compétition terminée).
+Exercice d'apprentissage sur une compétition passée. **Les résultats numériques du premier passage
+ne constituent pas un benchmark valide** et ne doivent pas être présentés comme un score Kaggle.
 
-## Résultat (validation honnête)
-- **Meilleur SMAPE : ~0.47** (walk-forward multi-fenêtres, LGBM + features enrichies)
-- Métrique : SMAPE, évaluée au seul niveau store×family (1782 séries)
+## Verdict de l'audit (GPT-5.6 Sol, 13 août 2026)
 
-## Progression
-| Version | Approche | SMAPE |
-|---------|----------|-------|
-| v1 | log1p baseline | 0.5341 |
-| v2 | log1p + features (45) | 0.5117 |
-| v3B | **ventes brutes** + features | 0.4515 (1 fenêtre) |
-| v4 | brut + XGB/LGB/blend | 0.4701 (régression) |
-| v5 | brut + features enrichies (64) | **0.4663 (3 fenêtres)** |
+1. La métrique officielle est **RMSLE**, pas SMAPE.
+2. Les rolling target features étaient calculées sans décalage préalable :
+   `rolling(...).mean()` incluait la vente du jour prédit.
+3. Les moyennes cible par store/family étaient calculées sur l'ensemble des données avant la CV,
+   donc elles incorporaient les cibles de validation.
+4. Les 16 jours futurs exigent une stratégie multi-horizon explicite (recursive, directe par
+   horizon ou multi-output). Concaténer train/test ne suffit pas à produire les lags futurs.
 
-## Les 3 découvertes clés
-1. **Transformation** : prédire les ventes BRUTES (0.45) > log1p (0.51) — log1p pénalise les
-   petites valeurs en SMAPE (dénominateur |y|+|p|/2).
-2. **Validation honnête** : la walk-forward multi-fenêtres (0.4663) est plus fiable que 1 seule
-   fenêtre (0.4515) — valider sur 1 fenêtre surestime.
-3. **Réconciliation hiérarchique INUTILE ici** : la métrique SMAPE n'évalue QUE le niveau
-   store×family (pas les agrégats) → MinTrace ne fait que contraindre, n'aide pas.
+Les anciens résultats SMAPE (~0.45–0.53) sont donc conservés uniquement comme **incident pédagogique** :
+ils ne mesurent ni la métrique officielle ni une validation causale.
 
-## Ce qui a été appris (réutilisable)
-- Validation temporelle walk-forward (jamais k-fold sur données temporelles)
-- Features de lag/rolling (lags 1-364, rolling 7-364) par (store, family)
-- Covariables : oil, holidays, transactions, promotions
-- M5 (Makridakis 2022) : LightGBM + features exogènes + cross-learning = recette gagnante retail
-- Vérifier la granularité de la métrique AVANT de choisir la technique
+## Ce qui reste utile
+
+- EDA de la structure : 54 magasins × 33 familles, horizon de 16 jours.
+- Fusion des covariables et construction du pipeline de données.
+- Découverte pratique du walk-forward et des risques de fuite temporelle.
+- Leçon centrale : vérifier la métrique officielle et auditer la causalité de chaque feature avant
+  tout entraînement coûteux.
+
+## Reconstruction requise
+
+1. Implémenter RMSLE et deux baselines causales : seasonal-naive et moyenne saisonnière.
+2. Construire des lags/rolling avec `shift(1)` ou `shift(h)`.
+3. Évaluer sur au moins 3 fenêtres de 16 jours ; reporter moyenne, écart-type et pire fenêtre.
+4. Tester un LightGBM sur `log1p(sales)` avec stratégie directe par horizon ou recursive.
+5. Produire une submission réelle et reproductible avant de réintégrer Store Sales aux résultats
+   validés du portfolio.
 
 ## Fichiers
-- `code/eda.py`, `improved.py`, `v3_transform.py`, `v5_walk.py`
-- Voir `../../methodology/` et le skill `time-series-forecasting`
+
+Les scripts `code/eda.py`, `improved.py`, `v3_transform.py`, `v5_walk.py` sont archivés comme
+prototypes historiques. Ils ne doivent pas être réutilisés sans correction du leakage et de la
+métrique.

@@ -1,5 +1,7 @@
 # ML Competition Portfolio
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Mon portfolio de compétitions Kaggle / machine learning — du baseline au stacking,
 avec une méthodologie reproductible pour progresser des compétitions gratuites aux payantes.
 
@@ -28,18 +30,35 @@ ml-competition-portfolio/
 │   │   ├── code/             # scripts et notebooks
 │   │   └── results/          # OOF, submissions, scores
 │   └── ...
-└── LICENSE
+├── experiments.csv            # registre des expériences et niveaux d'assistance
+├── scripts/
+│   └── verify_repository.py   # syntaxe, notebooks, scan de secrets
+├── .github/workflows/         # CI légère
+├── ROADMAP.md                 # trajectoire autonome vers top 10 %, top 5 %, puis prize
+├── LICENSE                    # MIT
+└── README.md                  # résultats vérifiés et synthèse
 ```
+
+## 🔍 Politique de preuve
+
+- **Autonome / from-scratch** : modèles entraînés par nous, sans prédictions de notebooks publics.
+- **Assisté** : utilise des OOF/test predictions ou autres artefacts publics ; présenté séparément.
+- Un faible écart au meilleur score ne vaut pas un rang : tout rang est vérifié sur un snapshot.
+- Un résultat time series n'est publié qu'avec métrique officielle et features causales auditées.
 
 ## 🏆 Compétitions
 | Compétition | Type | Score | Leçons clés |
 |-------------|------|-------|-------------|
-| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057** (quasi top-1) | Stacking massif + poly; diversité > perfection |
-| Store Sales Forecasting (entraînement) | Time series | **0.47 SMAPE** | Walk-forward CV; brut>log1p pour SMAPE; vérifier métrique |
+| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96630 autonome** (~top 36,8 %) | Distinguer reproduction publique et performance from-scratch |
+| Store Sales Forecasting (prototype) | Time series | **Non validé** | Audit: métrique officielle RMSLE; ancien SMAPE + features fuyantes à reconstruire |
 
 ## 🚀 Roadmap
-- [x] Compétition #1 : Smartphone Addiction (**0.97057**, quasi top-1)
-- [x] Maîtriser le stacking massif (meta-features publiques + polynomiales + GPU)
-- [x] Compétition #2 : Store Sales (time series, mécanique apprise)
-- [ ] Compétition #3 gratuite (Playground S6E9 à venir)
-- [ ] Compétition à prize (tabulaire ou time series)
+
+Plan détaillé, portes de passage et seuils chiffrés : [ROADMAP.md](ROADMAP.md).
+
+- [x] Compétition #1 : Smartphone Addiction (**0.97057 assisté**, **0.96630 autonome**)
+- [x] Reproduire et étudier le stacking massif public (meta-features + polynômes + GPU)
+- [ ] Reconstruire Store Sales avec RMSLE et features temporelles causales
+- [ ] Obtenir un premier résultat **from-scratch** top 10 % sur une Playground
+- [ ] Obtenir un résultat **from-scratch** top 5 % sur une seconde compétition
+- [ ] Entrer ensuite sur une compétition à prize tabulaire ou time series

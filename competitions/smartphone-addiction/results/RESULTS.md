@@ -18,18 +18,28 @@ Métrique: ROC AUC, 5-fold stratified CV
 - **#3** : Pseudo-labeling — public **0.96563** (PIRE)
 - **#4** : Stacking massif 4 meta + poly — public **0.96978** 🚀
 - **#5 : Stacking massif 15 meta + poly — public 0.97057** 🏆 MEILLEURE
-- **#6** : Stacking massif 17 meta + poly — public **0.97053** (léger recul)
+- **#6-7** : Stacking massif 17 meta / top 14 — public **0.97053** (léger recul)
+- **#8** : **FROM-SCRATCH** 8 GBDT + poly + stacker XGB — public **0.96630**
 
-## LEÇON MAJEURE : le stacking massif est LA technique
+## Benchmark autonome (submission #8 vérifiée)
+- 8 modèles propres : 3 XGB + 3 LGB + 2 CatBoost ; aucune prédiction de notebook public.
+- **CV moyenne 0.96487 | OOF global 0.96473 | public 0.96630**.
+- Rang estimé sur le leaderboard du 13 août : **~635–638 / 1 724** (top ~36,8 %).
+- Écart vs score assisté : **−0.00427**. Notre maîtrise autonome est donc intermédiaire ; le
+  principal gain actuel vient des prédictions publiques, pas encore de notre modélisation propre.
+
+## Stacking public : technique de reproduction, pas preuve autonome
 - OOF/test preds de modèles publics comme **meta-features** + **PolynomialFeatures(degré 2)** + **XGBoost lent (lr=0.01, 20000 arbres, GPU)**.
 - 4 meta : CV 0.96853 → public 0.96978
 - **15 meta : CV 0.96944 → public 0.97057** (meilleur)
 - 17 meta : 0.97053 (les features redondantes dégradent — plus n'est pas toujours mieux)
-- **Plateau atteint ~0.97057**, à 0.0007 du top 1 (0.97124).
+- **Écart numérique du stack public** : 0.00067 au meilleur score observé, mais rang réel 277/1 724.
 - Le gain vient de la DIVERSITÉ (GBDT + NN + AutoML + lookup transformer).
 - Méthode : `kaggle kernels output` des notebooks publics → dataset Kaggle unifié → notebook GPU.
+- Ce résultat mesure notre capacité à **reproduire et orchestrer** des sorties publiques. La
+  performance from-scratch (0.96630) mesure séparément notre niveau autonome.
 
 ## Notes
 - XGBoost > LightGBM; CatBoost déprioritisé (lent); FE rejeté (bruit).
 - NaN: LGB/XGB natif; CatBoost require conversion NaN cat → 'missing' (wrapper cat_factory).
-- Public score > OOB (test public plus favorable).
+- Public > OOF sur ces submissions ; cela peut refléter un échantillon public plus favorable ou du bruit de leaderboard.

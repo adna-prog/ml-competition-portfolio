@@ -1,7 +1,7 @@
-# Stacking massif + features polynomiales — la technique gagnante
+# Stacking de sorties publiques + features polynomiales — étude S6E8
 
 Technique validée sur **Playground S6E8** (Predicting Smartphone Addiction) :
-baseline 0.96608 → **0.97057 public** (quasi top-1, écart 0.0007).
+baseline 0.96608 → **0.97057 public** (écart numérique de 0.00067 au meilleur score public observé ; rang public vérifié 277/1 724 au 13 août 2026).
 
 ## Principe
 Au lieu d'entraîner nos propres modèles, on **réutilise les OOF + test preds des notebooks publics**

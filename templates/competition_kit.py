@@ -6,7 +6,7 @@ Pipeline :
 1. Chargement + split (CV stratifiée, ou TimeSeriesSplit si temporel)
 2. Baseline GBDT (XGB/LGB/Cat) rapide
 3. Modèles diversifiés Niveau 1 (GBDT configs + features variées + option NN)
-4. Stacking massif (OOF + PolynomialFeatures + XGBoost lent GPU) — LA technique gagnante
+4. **Stacking/ensembling propre** (OOF + méta-modèle) — puissant si les modèles sont diversifiés
 5. Submission
 
 Usage (local ou notebook Kaggle) :
@@ -76,20 +76,38 @@ def cat_factory(X_tr, y_tr, X_va, y_va, params=None, cat_cols=None):
     p = dict(learning_rate=0.03, iterations=3000, depth=6, random_seed=SEED,
              verbose=0, allow_writing_files=False)
     if params: p.update(params)
-    # CatBoost : NaN catégoriel -> 'missing'
+    cat_cols = list(cat_cols or [])
+
     def clean(df):
         df = df.copy()
-        for c in (cat_cols or []):
+        for c in cat_cols:
             df[c] = df[c].astype('object').fillna('missing')
         return df
-    m = CatBoostClassifier(**p)
-    return m.fit(clean(X_tr), y_tr, cat_features=cat_cols or [],
-                 eval_set=(clean(X_va), y_va), early_stopping_rounds=100)
+
+    class CleanCatBoost:
+        """Applique le même nettoyage catégoriel pendant fit et predict."""
+
+        def __init__(self, model):
+            self.model = model
+
+        def predict_proba(self, X):
+            return self.model.predict_proba(clean(X))
+
+    model = CatBoostClassifier(**p)
+    model.fit(clean(X_tr), y_tr, cat_features=cat_cols,
+              eval_set=(clean(X_va), y_va), early_stopping_rounds=100)
+    return CleanCatBoost(model)
 
 
-# ============ Stacking massif (LA technique gagnante) ============
+# ============ Stacking de meta-features (validation nested requise) ============
 def stack_massif(OOF, TEST_PRED, y, n_splits=N_FOLDS):
-    """OOF/TEST des modèles N1 → PolynomialFeatures + XGBoost lent GPU → oof/test stack."""
+    """Entraîne un stacker sur OOF existantes et produit ses prédictions test.
+
+    ATTENTION: la CV ci-dessous est uniquement diagnostique. Re-CV des OOF avec les mêmes folds
+    peut être optimiste, car les labels du fold meta-validation ont pu influencer les modèles qui
+    ont produit certaines meta-features du meta-train. Pour une estimation honnête, construire les
+    OOF de niveau 1 dans une CV externe/nested, ou utiliser un holdout final jamais vu.
+    """
     import xgboost as xgb
     names = list(OOF.keys())
     Xm = np.column_stack([OOF[n] for n in names])
@@ -138,7 +156,11 @@ if __name__ == '__main__':
            and train[c].dtype == 'object']
     X = train[NUM+CAT].copy(); X_test = test[NUM+CAT].copy()
     for c in CAT:
-        X[c] = X[c].astype('category'); X_test[c] = X_test[c].astype('category')
+        # Une catégorie commune évite des codes/catégories incohérents entre train et test.
+        categories = pd.Index(pd.concat([X[c], X_test[c]], ignore_index=True).dropna().unique())
+        dtype = pd.CategoricalDtype(categories=categories)
+        X[c] = X[c].astype(dtype)
+        X_test[c] = X_test[c].astype(dtype)
 
     # 1) Baseline rapide
     auc, oof, tp = cv_oof(xgb_factory, X, y, X_test)
