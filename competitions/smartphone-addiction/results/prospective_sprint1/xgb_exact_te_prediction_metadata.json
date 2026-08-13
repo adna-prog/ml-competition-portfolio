@@ -1,0 +1,39 @@
+{
+  "selected_variant": "exact_te",
+  "selection_data": "development_oof_only",
+  "holdout_scored": false,
+  "development_oof_auc": 0.966825522895223,
+  "oof_max_abs_difference_vs_ablation": 0.0,
+  "folds": [
+    {
+      "fold": 0,
+      "auc": 0.9666502307942123,
+      "best_iteration": 916,
+      "runtime_seconds": 519.5794897079468
+    },
+    {
+      "fold": 1,
+      "auc": 0.9673075999495269,
+      "best_iteration": 990,
+      "runtime_seconds": 397.7191321849823
+    },
+    {
+      "fold": 2,
+      "auc": 0.9666191235875459,
+      "best_iteration": 1068,
+      "runtime_seconds": 413.06938076019287
+    },
+    {
+      "fold": 3,
+      "auc": 0.9666699944841177,
+      "best_iteration": 1097,
+      "runtime_seconds": 480.6177089214325
+    },
+    {
+      "fold": 4,
+      "auc": 0.9668901618410052,
+      "best_iteration": 876,
+      "runtime_seconds": 328.70402812957764
+    }
+  ]
+}

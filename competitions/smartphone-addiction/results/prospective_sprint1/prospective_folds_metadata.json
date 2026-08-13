@@ -1,0 +1,19 @@
+{
+  "seed": 20260813,
+  "holdout_size": 0.2,
+  "n_folds": 5,
+  "train_sha256": "f4669147311c76eb03496061a852af283efcf0f12cf5c19274e775def81edd9c",
+  "rows": 691369,
+  "development_rows": 553095,
+  "holdout_rows": 138274,
+  "target_rate_all": 0.7094243450313797,
+  "target_rate_development": 0.7094242399587775,
+  "target_rate_holdout": 0.7094247653210293,
+  "fold_counts": {
+    "0": 110619,
+    "1": 110619,
+    "2": 110619,
+    "3": 110619,
+    "4": 110619
+  }
+}

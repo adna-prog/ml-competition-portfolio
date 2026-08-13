@@ -1,0 +1,24 @@
+{
+  "model": "compact-pytorch-realmlp",
+  "seed": 20260813,
+  "development_rows": 553095,
+  "holdout_rows": 138274,
+  "holdout_scored": false,
+  "fold_scores": [
+    0.9678737206643162,
+    0.9681750036528316,
+    0.967680130816162,
+    0.9677604418920185,
+    0.9680646466894516
+  ],
+  "development_oof_auc": 0.9679047176104456,
+  "fold_times_seconds": [
+    391.5289218425751,
+    391.1507453918457,
+    373.19107842445374,
+    373.15059518814087,
+    342.2051045894623
+  ],
+  "public_prediction_artifacts_used": false,
+  "code_reference": "zhenruiweng/realmlp-for-predicting-smartphone-addiction"
+}

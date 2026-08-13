@@ -49,15 +49,15 @@ ml-competition-portfolio/
 ## 🏆 Compétitions
 | Compétition | Type | Score | Leçons clés |
 |-------------|------|-------|-------------|
-| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96630 autonome** (~top 36,8 %) | Distinguer reproduction publique et performance from-scratch |
+| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96907 autonome prospectif** (~top 25,1 % estimé) | Exact-value TE + RealMLP, validation sur holdout scellé |
 | Store Sales Forecasting (prototype) | Time series | **Non validé** | Audit: métrique officielle RMSLE; ancien SMAPE + features fuyantes à reconstruire |
 
 ## 🚀 Roadmap
 
 Plan détaillé, portes de passage et seuils chiffrés : [ROADMAP.md](ROADMAP.md).
 
-- [x] Compétition #1 : Smartphone Addiction (**0.97057 assisté**, **0.96630 autonome**)
-- [x] Reproduire et étudier le stacking massif public (meta-features + polynômes + GPU)
+- [x] Compétition #1 : Smartphone Addiction (**0.97057 assisté**, **0.96907 autonome prospectif**)
+- [x] Sprint prospectif : folds gelés, exact-value TE, RealMLP GPU et holdout scellé
 - [ ] Reconstruire Store Sales avec RMSLE et features temporelles causales
 - [ ] Obtenir un premier résultat **from-scratch** top 10 % sur une Playground
 - [ ] Obtenir un résultat **from-scratch** top 5 % sur une seconde compétition

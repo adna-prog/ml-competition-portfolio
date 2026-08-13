@@ -1,0 +1,66 @@
+{
+  "raw": {
+    "oof_auc_development": 0.9638662119559019,
+    "fold_scores": [
+      0.9639115676456393,
+      0.9643235866445914,
+      0.9636250145586398,
+      0.9636617847029118,
+      0.9638128083151146
+    ],
+    "fold_mean": 0.9638669523733793,
+    "fold_std": 0.00025062507393140384,
+    "fold_worst": 0.9636250145586398
+  },
+  "frequency_missing": {
+    "oof_auc_development": 0.965543725893181,
+    "fold_scores": [
+      0.965489394592219,
+      0.9660746143663774,
+      0.9654346445368059,
+      0.9653128268577852,
+      0.965439669702332
+    ],
+    "fold_mean": 0.9655502300111038,
+    "fold_std": 0.00026856051131788635,
+    "fold_worst": 0.9653128268577852
+  },
+  "exact_te": {
+    "oof_auc_development": 0.966825522895223,
+    "fold_scores": [
+      0.9666502307942123,
+      0.9673075999495269,
+      0.9666191235875459,
+      0.9666699944841177,
+      0.9668901618410052
+    ],
+    "fold_mean": 0.9668274221312816,
+    "fold_std": 0.00025848617976880893,
+    "fold_worst": 0.9666191235875459
+  },
+  "protocol": {
+    "holdout_scored": false,
+    "development_rows": 553095,
+    "holdout_rows": 138274,
+    "seed": 20260813,
+    "inner_folds": 5,
+    "smoothing": 20.0,
+    "xgb_params": {
+      "n_estimators": 1800,
+      "learning_rate": 0.07,
+      "max_depth": 6,
+      "min_child_weight": 5,
+      "subsample": 0.8,
+      "colsample_bytree": 0.75,
+      "reg_alpha": 0.05,
+      "reg_lambda": 1.0,
+      "tree_method": "hist",
+      "enable_categorical": true,
+      "eval_metric": "auc",
+      "random_state": 20260813,
+      "n_jobs": -1,
+      "early_stopping_rounds": 100
+    },
+    "runtime_seconds": 5321.727024078369
+  }
+}

@@ -7,7 +7,8 @@ Date de référence : 13 août 2026.
 | Preuve | Résultat vérifié | Interprétation |
 |---|---:|---|
 | S6E8 — stack de 15 sorties publiques | 0.97057 public, rang 277/1 724 (top 16,1 %) | Bonne orchestration/reproduction, pas une preuve autonome |
-| S6E8 — 8 modèles propres + stacker | 0.96630 public, rang estimé ~635–638 (top ~36,8 %) | Niveau autonome actuel |
+| S6E8 — 8 modèles propres + stacker | 0.96630 public, rang estimé ~635–638 (top ~36,8 %) | Benchmark autonome initial |
+| S6E8 — RealMLP + XGB exact-TE prospectifs | 0.96907 public, bande estimée 434–435/1 728 (top ~25,1 %) | Nouveau benchmark autonome ; objectif top 10 % non atteint |
 | Store Sales | Non validé | Mauvaise métrique (SMAPE au lieu de RMSLE) + leakage temporel |
 
 Seuils S6E8 au 13 août : top 10 % = **0.97086**, top 5 % = **0.97097**, top 1 % = **0.97106**.
@@ -23,8 +24,9 @@ Seuils S6E8 au 13 août : top 10 % = **0.97086**, top 5 % = **0.97097**, top 1 %
 ## Sprint 1 — S6E8 : viser top 10 % from-scratch avant le 31 août
 
 ### Objectif
-Passer de **0.96630** à un score autonome proche du seuil top 10 % (**0.97086** au snapshot actuel),
-sans prédictions de notebooks publics.
+Passer du nouveau benchmark autonome **0.96907** au seuil top 10 % (**0.97086** au snapshot de référence),
+sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE a réduit l'écart de
+0.00456 à 0.00179, mais la porte top 10 % reste ouverte.
 
 ### Plan d'expériences, par ROI
 
@@ -109,7 +111,6 @@ Les compétitions Pokémon TCG et Kaggriculture sont écartées : simulations/ag
 
 ## Principe directeur
 
-La prochaine étape n'est pas d'empiler davantage de travail public. C'est de réduire l'écart
-**0.97057 assisté vs 0.96630 autonome** par diversité de modèles propres, validation plus stricte et
-expériences traçables. Le portfolio devient crédible quand ses meilleurs rangs sont reproductibles
-sans dépendance aux prédictions d'autrui.
+La prochaine étape n'est pas d'empiler davantage de travail public. Le sprint prospectif a réduit
+l'écart **0.97057 assisté vs 0.96907 autonome** à 0.00150 grâce à RealMLP et au target encoding exact-value.
+La suite doit chercher un signal autonome réellement complémentaire plutôt que multiplier les seeds corrélées.

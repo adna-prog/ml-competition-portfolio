@@ -1,0 +1,8 @@
+{
+  "holdout_opened": true,
+  "xgb_auc": 0.9671433455222638,
+  "realmlp_auc": 0.9678687941546702,
+  "frozen_blend_auc": 0.9680330132727912,
+  "weight_xgb": 0.29999999999999993,
+  "weight_realmlp": 0.7000000000000001
+}
