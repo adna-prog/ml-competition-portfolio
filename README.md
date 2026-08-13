@@ -32,12 +32,14 @@ ml-competition-portfolio/
 ```
 
 ## 🏆 Compétitions
-| Compétition | Type | Score | Rang | Leçons clés |
-|-------------|------|-------|------|-------------|
-| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057** | ~top | **Stacking massif + poly**; diversité > perfection |
+| Compétition | Type | Score | Leçons clés |
+|-------------|------|-------|-------------|
+| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057** (quasi top-1) | Stacking massif + poly; diversité > perfection |
+| Store Sales Forecasting (entraînement) | Time series | **0.47 SMAPE** | Walk-forward CV; brut>log1p pour SMAPE; vérifier métrique |
 
 ## 🚀 Roadmap
 - [x] Compétition #1 : Smartphone Addiction (**0.97057**, quasi top-1)
 - [x] Maîtriser le stacking massif (meta-features publiques + polynomiales + GPU)
-- [ ] Compétition #2 gratuite (Playground time series ou multi-class)
+- [x] Compétition #2 : Store Sales (time series, mécanique apprise)
+- [ ] Compétition #3 gratuite (Playground S6E9 à venir)
 - [ ] Compétition à prize (tabulaire ou time series)
