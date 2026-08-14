@@ -1,6 +1,6 @@
 # Roadmap ambitieuse — de la reproduction au niveau compétitif autonome
 
-Date de référence : 13 août 2026.
+Date de référence : 14 août 2026.
 
 ## Diagnostic de départ
 
@@ -8,7 +8,9 @@ Date de référence : 13 août 2026.
 |---|---:|---|
 | S6E8 — stack de 15 sorties publiques | 0.97057 public, rang 277/1 724 (top 16,1 %) | Bonne orchestration/reproduction, pas une preuve autonome |
 | S6E8 — 8 modèles propres + stacker | 0.96630 public, rang estimé ~635–638 (top ~36,8 %) | Benchmark autonome initial |
-| S6E8 — RealMLP + XGB exact-TE prospectifs | 0.96907 public, bande estimée 434–435/1 728 (top ~25,1 %) | Nouveau benchmark autonome ; objectif top 10 % non atteint |
+| S6E8 — RealMLP + XGB exact-TE prospectifs (S1) | 0.96907 public, bande estimée 434–435/1 728 (top ~25,1 %) | Benchmark autonome de référence au départ des Sprints 2–3 |
+| S6E8 — + TabM (Sprint 2) | 0.96923 public | Blend XGB/RealMLP/TabM, gain OOF +0.0001566 |
+| S6E8 — + CatBoost (Sprint 3) | 0.96952 public, submission 55504165 | **Benchmark autonome courant** ; gain OOF +0.0002594 |
 | Store Sales | Non validé | Mauvaise métrique (SMAPE au lieu de RMSLE) + leakage temporel |
 
 Seuils S6E8 au 13 août : top 10 % = **0.97086**, top 5 % = **0.97097**, top 1 % = **0.97106**.
@@ -62,6 +64,30 @@ sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE 
 - Stretch : **top 5 % autonome**.
 - En cas d'échec : publier honnêtement l'écart et les ablations ; ne pas masquer derrière le stack public.
 
+## Sprints 2–3 — S6E8 : diversité autonome (fait, 14 août 2026)
+
+> Note de numérotation : les Sprints 2–3 du **projet S6E8** (TabM puis CatBoost) sont terminés ;
+> ils sont distincts des Sprints 2–3 de la **roadmap** ci-dessous (Store Sales, puis nouvelles Playgrounds).
+
+### Sprint 2 — TabM entre dans le blend (public 0.96923)
+- TabM exact-value TE + fréquences fit-only + quantile fold-local : OOF **0.9671391**, inférieur à RealMLP seul mais retenu pour diversité.
+- Blend de rangs XGB 21,75 % / RealMLP 50,75 % / TabM 27,50 % : OOF **0.9682957**, gain **+0.0001566**.
+- Portes : gain positif à poids fixes 5/5, leave-one-fold-out positif 5/5.
+
+### Sprint 3 — CatBoost rejoint le blend (public 0.96952, submission 55504165)
+- CatBoost exact-catégorie + 12 compositions fit-only : OOF **0.9678329** (6 000 arbres, ~30,6 min GPU gratuit).
+- Blend de rangs XGB 13,59375 % / RealMLP 31,71875 % / TabM 17,1875 % / CatBoost 37,5 % : OOF **0.9685551**, gain **+0.0002594**.
+- Portes : positif à poids fixes 5/5 ; leave-one-fold-out sélectionne 37,5 % sur 5/5 (gain tenu à l'écart +0.0002495).
+
+### NO-GO
+- **LightGBM exact-TE** : trop corrélé à XGB (0.9934), gain marginal +0.000026 < porte utile.
+- **Decimal lattice** : −0.000070 (large) et −0.000267 (reproduction fidèle) sur fold 0.
+- **xRFM** : full run NO-GO provisoire sur P100 (`sm_60` sans tensor cores, coût quadratique risqué).
+
+### Prochaine porte sur S6E8
+- Écart au seuil top 10 % observé (0.97086) : ~0.00134. Il faut un signal autonome réellement
+  complémentaire de plus, validé par les mêmes portes de gain, pas un empilement de seeds corrélées.
+
 ## Sprint 2 — Reconstruire Store Sales correctement
 
 ### Objectif
@@ -111,6 +137,8 @@ Les compétitions Pokémon TCG et Kaggriculture sont écartées : simulations/ag
 
 ## Principe directeur
 
-La prochaine étape n'est pas d'empiler davantage de travail public. Le sprint prospectif a réduit
-l'écart **0.97057 assisté vs 0.96907 autonome** à 0.00150 grâce à RealMLP et au target encoding exact-value.
-La suite doit chercher un signal autonome réellement complémentaire plutôt que multiplier les seeds corrélées.
+La prochaine étape n'est pas d'empiler davantage de travail public. Les Sprints 1→3 ont réduit l'écart
+**0.97057 assisté vs 0.96952 autonome** à 0.00105 grâce à RealMLP, TabM et CatBoost (diversité réelle,
+validée par portes de gain 5/5 folds + leave-one-fold-out), tout en rejetant les familles corrélées
+(LightGBM) et les features non reproductibles (decimal lattice). La suite doit continuer à chercher un
+signal autonome réellement complémentaire plutôt que multiplier les seeds corrélées.

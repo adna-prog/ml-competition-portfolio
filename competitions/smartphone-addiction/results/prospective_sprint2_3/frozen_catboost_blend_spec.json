@@ -1,0 +1,20 @@
+{
+  "selection_data": "development_oof_only",
+  "holdout_file_read_or_scored": false,
+  "blend_type": "rank_average",
+  "weights": {
+    "xgb": 0.1359375,
+    "realmlp": 0.31718749999999996,
+    "tabm_te": 0.171875,
+    "catboost": 0.375
+  },
+  "oof_auc": 0.9685551089233828,
+  "gain_vs_sprint2_blend": 0.00025939789531748136,
+  "minimum_useful_gain": 0.00015,
+  "fixed_positive_folds": 5,
+  "loo_positive_folds": 5,
+  "loo_mean_delta": 0.00024948654621070876,
+  "public_score": 0.96952,
+  "submission_id": 55504165,
+  "provenance": "Frozen from the private development-only analysis; OOF and test predictions are not published."
+}

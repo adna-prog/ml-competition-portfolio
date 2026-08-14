@@ -1,8 +1,8 @@
 # Résultats Kaggle — Predicting Smartphone Addiction (S6E8)
-Date: 2026-08-13
-Métrique: ROC AUC, 5-fold stratified CV
+Date: 2026-08-14 (mise à jour Sprints 2–3)
+Métrique: ROC AUC, 5-fold CV stratifiée sur développement gelé
 
-## Modèles (raw features)
+## Modèles (raw features, historique)
 | modèle | config | OOB AUC |
 |--------|--------|---------|
 | LightGBM | lr=0.05, es=100 | 0.96346 |
@@ -12,48 +12,73 @@ Métrique: ROC AUC, 5-fold stratified CV
 | **Blend XGB(0.72)+LGB(0.28)** | — | **0.96460 OOB** |
 
 ## Feature engineering : ÉCHEC (gain −0.00135) → features brutes
+
 ## Résultats submission
 - **#1** : Blend XGB+LGB baseline — public **0.96608**
 - **#2** : Blend seeds full — public **0.96608** (identique)
 - **#3** : Pseudo-labeling — public **0.96563** (PIRE)
-- **#4** : Stacking massif 4 meta + poly — public **0.96978** 🚀
-- **#5 : Stacking massif 15 meta + poly — public 0.97057** 🏆 MEILLEURE
-- **#6-7** : Stacking massif 17 meta / top 14 — public **0.97053** (léger recul)
-- **#8** : **FROM-SCRATCH** 8 GBDT + poly + stacker XGB — public **0.96630**
-- **#9** : **AUTONOME PROSPECTIF** RealMLP + XGB exact-TE — public **0.96907**
+- **#4** : Stacking massif 4 meta + poly — public **0.96978** 🚀 (assisté)
+- **#5 : Stacking massif 15 meta + poly — public 0.97057** 🏆 MEILLEURE (assisté)
+- **#6-7** : Stacking massif 17 meta / top 14 — public **0.97053** (assisté)
+- **#8** : **FROM-SCRATCH** 8 GBDT + poly + stacker XGB — public **0.96630** (autonome)
+- **#9** : **AUTONOME SPRINT 1** RealMLP + XGB exact-TE — public **0.96907** (autonome)
+- **S2** : **AUTONOME SPRINT 2** blend XGB/RealMLP/TabM — public **0.96923** (autonome)
+- **S3** : **AUTONOME SPRINT 3** blend 4 modèles + CatBoost — public **0.96952** (autonome, submission 55504165)
 
-## Nouveau benchmark autonome prospectif (submission #9)
-- Split gelé avant entraînement : 80 % développement (5 folds) + 20 % holdout scellé, seed 20260813.
-- XGB raw : **0.963866 OOF développement**.
+## Séparation honnête des résultats
+- **Assisted / public-artifact** : `0.97057` — prédictions/OOF de notebooks publics en meta-features. Reproduction/orchestration, pas preuve autonome.
+- **Autonomous / from-scratch-code-assisted** : `0.96952` — aucune prédiction publique, aucun OOF public, aucun poids public importé ; architectures/packages (RealMLP, TabM, CatBoost) utilisés avec attribution, tous poids et prédictions réentraînés.
+
+## Pipeline autonome prospectif (Sprints 1–3)
+- Split gelé avant entraînement : 80 % développement (5 folds) + 20 % **holdout historique ouvert une fois** (code `fold=-2`), seed 20260813.
+- Le holdout n'est plus utilisé pour sélectionner représentation, modèle ou poids de blend.
+- XGB raw : **0.963866 OOF** développement.
 - + fréquence/missingness : **0.965544** (+0.001678).
 - + exact-value TE cross-fitté : **0.966826** (+0.002959 vs raw).
+
+### Sprint 1 — RealMLP (public 0.96907)
 - RealMLP propre : **0.967905**, écart-type folds 0.000185.
 - Blend de rangs figé sur OOF : **70 % RealMLP / 30 % XGB**, OOF **0.968139**.
 - Holdout ouvert une fois après gel des poids : XGB 0.967143, RealMLP 0.967869, blend **0.968033**.
 - Score Kaggle réel : **0.96907 public**, submission 55492274.
-- Gain vs ancien benchmark autonome : **+0.00277** ; écart vs score assisté : **−0.00150**.
-- Bande estimée sur le snapshot de 1 728 équipes : **434–435** (top ~25,1 %), non rang officiel de submission.
-- Aucun OOF/test public ou modèle entraîné public utilisé. L'architecture PyTorch RealMLP est adaptée avec attribution depuis un notebook public ; tous les poids et toutes les prédictions sont produits par notre run.
+- Bande estimée snapshot 1 728 équipes : **434–435** (top ~25,1 %).
+
+### Sprint 2 — TabM (public 0.96923)
+- TabM exact-value TE + fréquences fit-only + quantile fold-local : OOF **0.9671391** (folds 0.967425 / 0.967518 / 0.967086 / 0.967222 / 0.967440). Inférieur à RealMLP seul, retenu pour diversité.
+- Baseline Sprint 1 (30/70) : OOF 0.9681391.
+- Blend de rangs XGB **21,75 %** / RealMLP **50,75 %** / TabM **27,50 %** : OOF **0.9682957**, gain **+0.0001566**.
+- Portes : gain positif à poids fixes sur 5/5 folds, leave-one-fold-out positif sur 5/5.
+- **Public : 0.96923.**
+
+### Sprint 3 — CatBoost (public 0.96952, submission 55504165)
+- CatBoost exact-catégorie + 12 compositions fit-only (sans cible) : OOF **0.9678329** (folds 0.967882 / 0.968236 / 0.967610 / 0.967588 / 0.967857), 6 000 arbres max + early stopping.
+- Gain de représentation fold 0 ≈ **+0.001666** vs brut ; runtime ≈ 30,6 min GPU Kaggle gratuit, coût `0 $`.
+- Corrélations de rang : XGB 0.9831, RealMLP 0.9801, TabM 0.9836 → forte diversité.
+- Blend de rangs XGB **13,59375 %** / RealMLP **31,71875 %** / TabM **17,1875 %** / CatBoost **37,5 %** : OOF **0.9685551**, gain **+0.0002594** vs Sprint 2.
+- Portes : positif à poids fixes 5/5, leave-one-fold-out sélectionne 37,5 % sur 5/5 (gain moyen tenu à l'écart **+0.0002495**).
+- **Public : 0.96952**, gain +0.00029, très proche du gain OOF prévu.
+- Spec figée : `results/prospective_sprint2_3/frozen_catboost_blend_spec.json`.
+
+## NO-GO documentés (Sprints 2–3)
+- **LightGBM exact-TE** (OOF 0.9664086) : corrélation de rang LGB–XGB ≈ 0.9934, gain marginal blend ≈ +0.000026 < porte utile → rejeté.
+- **Decimal lattice** : variante large 45 var (fold-0 −0.000070) et reproduction fidèle publiée (fold-0 −0.000267) → rejeté ; la réputation externe d'une feature ne remplace pas la validation sur nos folds.
+- **xRFM** : full run cinq-folds NO-GO provisoire sur P100 (`sm_60` sans tensor cores, coût quadratique risqué) ; micro-screening non comparable à une AUC full-fold.
 
 ## Benchmark autonome initial (submission #8 vérifiée)
 - 8 modèles propres : 3 XGB + 3 LGB + 2 CatBoost ; aucune prédiction de notebook public.
 - **CV moyenne 0.96487 | OOF global 0.96473 | public 0.96630**.
-- Rang estimé sur le leaderboard du 13 août : **~635–638 / 1 724** (top ~36,8 %).
-- Écart vs score assisté : **−0.00427**. Notre maîtrise autonome est donc intermédiaire ; le
-  principal gain actuel vient des prédictions publiques, pas encore de notre modélisation propre.
+- Rang estimé leaderboard du 13 août : **~635–638 / 1 724** (top ~36,8 %).
+- Écart vs score assisté : **−0.00427**.
 
 ## Stacking public : technique de reproduction, pas preuve autonome
 - OOF/test preds de modèles publics comme **meta-features** + **PolynomialFeatures(degré 2)** + **XGBoost lent (lr=0.01, 20000 arbres, GPU)**.
 - 4 meta : CV 0.96853 → public 0.96978
-- **15 meta : CV 0.96944 → public 0.97057** (meilleur)
-- 17 meta : 0.97053 (les features redondantes dégradent — plus n'est pas toujours mieux)
-- **Écart numérique du stack public** : 0.00067 au meilleur score observé, mais rang réel 277/1 724.
-- Le gain vient de la DIVERSITÉ (GBDT + NN + AutoML + lookup transformer).
-- Méthode : `kaggle kernels output` des notebooks publics → dataset Kaggle unifié → notebook GPU.
-- Ce résultat mesure notre capacité à **reproduire et orchestrer** des sorties publiques. La
-  performance from-scratch (0.96630) mesure séparément notre niveau autonome.
+- **15 meta : CV 0.96944 → public 0.97057** (meilleur, catégorie assistée)
+- 17 meta : 0.97053 (features redondantes dégradent).
+- Rang réel **277/1 724**.
+- Ce résultat mesure notre capacité à **reproduire et orchestrer** des sorties publiques, séparée de notre niveau autonome.
 
 ## Notes
-- XGBoost > LightGBM; CatBoost déprioritisé (lent); FE rejeté (bruit).
+- XGBoost > LightGBM; CatBoost déprioritisé (lent) sur les features brutes, mais fort gain via catégories/compositions exactes.
 - NaN: LGB/XGB natif; CatBoost require conversion NaN cat → 'missing' (wrapper cat_factory).
-- Public > OOF sur ces submissions ; cela peut refléter un échantillon public plus favorable ou du bruit de leaderboard.
+- Public > OOF sur ces submissions ; peut refléter un échantillon public plus favorable ou du bruit de leaderboard.

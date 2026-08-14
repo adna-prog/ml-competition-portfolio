@@ -1,0 +1,17 @@
+{
+  "selection_data": "development_oof_only",
+  "holdout_file_read_or_scored": false,
+  "blend_type": "rank_average",
+  "weights": {
+    "xgb": 0.2175,
+    "realmlp": 0.5075,
+    "tabm_te": 0.275
+  },
+  "oof_auc": 0.9682957109963504,
+  "gain_vs_sprint1_blend": 0.00015660685116314355,
+  "fixed_positive_folds": 5,
+  "loo_positive_folds": 5,
+  "loo_mean_delta": 0.0001669941741270442,
+  "public_score": 0.96923,
+  "provenance": "Frozen from the private development-only analysis; OOF and test predictions are not published."
+}

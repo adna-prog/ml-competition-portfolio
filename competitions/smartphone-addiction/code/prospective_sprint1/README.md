@@ -4,13 +4,13 @@ Reproducible code for the autonomous RealMLP + exact-value-TE XGBoost benchmark.
 
 ## Evidence protocol
 
-1. `freeze_prospective_folds.py` creates a deterministic 80% development / 20% sealed holdout split.
+1. `freeze_prospective_folds.py` creates a deterministic 80% development / 20% historical-holdout split (opened once in Sprint 1).
 2. `experiment_prospective_te.py` compares raw, frequency/missingness, and inner-cross-fitted exact-value target encoding **without scoring holdout**.
 3. `s6e8_prospective_realmlp.ipynb` trains all RealMLP weights on Kaggle GPU and writes development OOF plus unscored holdout/test predictions.
 4. `select_prospective_blend.py select` freezes rank-blend weights from development OOF only.
 5. `train_selected_xgb.py` regenerates the selected XGBoost OOF exactly and writes unscored holdout/test predictions.
-6. `select_prospective_blend.py evaluate` opens the holdout once and marks it opened in `frozen_blend_spec.json`.
-7. `create_prospective_submission.py` refuses to emit a blend unless it beats both components on the sealed holdout.
+6. `select_prospective_blend.py evaluate` opens the (now historical) holdout once and marks it opened in `frozen_blend_spec.json`.
+7. `create_prospective_submission.py` refuses to emit a blend unless it beats both components on the historical holdout (opened once, no longer used for selection).
 
 ## Verified outcome
 

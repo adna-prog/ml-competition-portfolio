@@ -11,7 +11,7 @@ implementation from:
 
 The adapted files have been modified substantially for this repository:
 prospective development/holdout splitting, fold-local preprocessing,
-inner cross-fitted target encoding, sealed-holdout prediction, artifact
+inner cross-fitted target encoding, historical-holdout prediction, artifact
 validation, deterministic seed, and Kaggle P100 compatibility were added.
 No trained model, OOF prediction, test prediction, or other fitted artifact
 from the source notebook is redistributed or used.
