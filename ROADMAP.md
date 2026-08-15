@@ -94,6 +94,9 @@ sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE 
 - **RealMLP + compositions (95 var)** : gain fold 0 +0.000066 < porte +0.00015, corrélation >0.995 → NO-GO.
 - **Decimal lattice** : −0.000070 (large) et −0.000267 (reproduction fidèle) sur fold 0.
 - **xRFM** : full run NO-GO provisoire sur P100 (`sm_60` sans tensor cores, coût quadratique risqué).
+- **Sprint 4 — combinateur rang/prob/logit** : rang 0.9685551 / prob 0.9685530 / logit 0.9685566 ; gain max +0.00000152, sélection LOO instable 4/5 → NO-GO (conserver le blend de rangs).
+- **Sprint 4 — géométrie du budget CatBoost** : candidate 0.9680293 vs baseline fraîche 0.9678936 (+0.0001357) et placebo 0.9679650 (+0.0000643), sous les portes +0.00015/+0.00010 → NO-GO.
+- **Ablation de blocs CatBoost (fold 0, descriptif)** : signal concentré dans exposition écran (retrait → 0.8538) et engagement (→ 0.9478) ; récupération/contraintes non prioritaire ; contexte quasi neutre — observation, pas une promotion.
 
 ### Prochaine porte sur S6E8
 - Écart au seuil top 10 % observé (0.97086) : ~0.00134. Il faut un signal autonome réellement

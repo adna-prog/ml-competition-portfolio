@@ -73,6 +73,9 @@ Métrique: ROC AUC, 5-fold CV stratifiée sur développement gelé
 - **RealMLP + compositions (95 var)** : gain fold 0 +0.000066 < porte +0.00015, corrélation >0.995 → NO-GO.
 - **Decimal lattice** : variante large 45 var (fold-0 −0.000070) et reproduction fidèle publiée (fold-0 −0.000267) → rejeté ; la réputation externe d'une feature ne remplace pas la validation sur nos folds.
 - **xRFM** : full run cinq-folds NO-GO provisoire sur P100 (`sm_60` sans tensor cores, coût quadratique risqué) ; micro-screening non comparable à une AUC full-fold.
+- **Sprint 4 — combinateur rang/prob/logit** : rang 0.9685551 / prob 0.9685530 / logit 0.9685566 ; gain max +0.00000152, sélection LOO instable 4/5 → NO-GO (conserver le blend de rangs).
+- **Sprint 4 — géométrie du budget CatBoost** : candidate 0.9680293 vs baseline fraîche 0.9678936 (+0.0001357) et placebo 0.9679650 (+0.0000643), sous les portes +0.00015/+0.00010 → NO-GO.
+- **Ablation de blocs CatBoost (fold 0, descriptif)** : signal concentré dans exposition écran (retrait → 0.8538) et engagement (→ 0.9478) ; récupération/contraintes non prioritaire ; contexte quasi neutre — observation, pas une promotion.
 
 ## Benchmark autonome initial (submission #8 vérifiée)
 - 8 modèles propres : 3 XGB + 3 LGB + 2 CatBoost ; aucune prédiction de notebook public.
