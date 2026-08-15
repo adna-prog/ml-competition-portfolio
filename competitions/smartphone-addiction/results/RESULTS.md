@@ -78,6 +78,7 @@ Métrique: ROC AUC, 5-fold CV stratifiée sur développement gelé
 - **Ablation de blocs CatBoost (fold 0, descriptif)** : signal concentré dans exposition écran (retrait → 0.8538) et engagement (→ 0.9478) ; récupération/contraintes non prioritaire ; contexte quasi neutre — observation, pas une promotion.
 - **Interactions exposition × engagement (A1)** : candidate 0.965180 vs baseline 0.965301 (−0.000120) et placebo 0.965211 (−0.000031) → aucun signal propre, les produits/ratios croisés de numériques sont déjà captés par les splits CatBoost → NO-GO.
 - **Features non supervisées (A3)** : candidate 0.965185 vs baseline 0.965334 (−0.000149) et placebo 0.965276 (−0.000091) → aucun signal propre, la structure globale des profils (cluster/anomalie) est déjà captée → NO-GO. Le gisement de features S6E8 est épuisé.
+- **Stacker niveau 2 (C1)** : LR sur les 4 rangs OOF (LOO) gagne +0.000061 (5/5 folds) vs rank-average, +0.000048 avec interactions de rangs → sous la porte +0.00015, la combinaison rank-average est quasi-optimale → NO-GO.
 
 ## Benchmark autonome initial (submission #8 vérifiée)
 - 8 modèles propres : 3 XGB + 3 LGB + 2 CatBoost ; aucune prédiction de notebook public.
