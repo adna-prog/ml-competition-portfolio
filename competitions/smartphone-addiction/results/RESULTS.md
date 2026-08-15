@@ -59,8 +59,18 @@ Métrique: ROC AUC, 5-fold CV stratifiée sur développement gelé
 - **Public : 0.96952**, gain +0.00029, très proche du gain OOF prévu.
 - Spec figée : `results/prospective_sprint2_3/frozen_catboost_blend_spec.json`.
 
-## NO-GO documentés (Sprints 2–3)
+### Sprint 4 — imputation prédictive augmentée (public 0.96970, submission 55509925)
+- Imputation prédictive des 9 numériques par 9 `LGBMRegressor` one-shot par fold (45 au total), sans fallback ; baseline 42/12 et candidate 63/12 dans le même run.
+- Candidate OOF **0.9681619** (baseline 0.9678295, gain **+0.0003324**, 5/5 folds) ; 10 CatBoost, runtime ~62 min GPU gratuit, coût `0 $`.
+- Corrélations de rang candidate vs ancien CatBoost Spearman **0.9971** : l'ajout plafonne à +0.000118 (sous la porte) ; le **remplacement** fixe à poids gelé 37,5 % atteint OOF **0.9687401**, gain **+0.000185**, positif 5/5.
+- Poids Sprint 4 : XGB 13,59375 % / RealMLP 31,71875 % / TabM 17,1875 % / candidate imputée 37,5 %.
+- **Public : 0.96970**, gain +0.00018 vs Sprint 3, très proche du gain OOF prévu.
+
+## NO-GO documentés (Sprints 2–4)
 - **LightGBM exact-TE** (OOF 0.9664086) : corrélation de rang LGB–XGB ≈ 0.9934, gain marginal blend ≈ +0.000026 < porte utile → rejeté.
+- **LightGBM fortement régularisé** (num_leaves 23, min_child_samples 864, régularisation forte) : meilleur LGBM seul (OOF 0.96672, +0.00030 vs LGBM historique, GO 5/5 folds) mais corrélation de rang XGB 0.9944 → ajout au blend à gain 0.000000 → NO-GO blend.
+- **Nystroem-LR** : AUC fold 0 plafonne à 0.9519 (écart −0.0168 vs blend) → linéarisation par noyau inadaptée → NO-GO.
+- **RealMLP + compositions (95 var)** : gain fold 0 +0.000066 < porte +0.00015, corrélation >0.995 → NO-GO.
 - **Decimal lattice** : variante large 45 var (fold-0 −0.000070) et reproduction fidèle publiée (fold-0 −0.000267) → rejeté ; la réputation externe d'une feature ne remplace pas la validation sur nos folds.
 - **xRFM** : full run cinq-folds NO-GO provisoire sur P100 (`sm_60` sans tensor cores, coût quadratique risqué) ; micro-screening non comparable à une AUC full-fold.
 

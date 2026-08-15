@@ -4,7 +4,7 @@ Première mission Kaggle complète. Classification binaire tabulaire, métrique 
 
 ## Résultat (au 14 août 2026)
 - **Assisté / artefact public : 0.97057** (submission #5, stacking 15 meta-features) — jamais présenté comme autonome.
-- **Autonome / from-scratch-code-assisted : 0.96952 public** (submission 55504165, blend 4 modèles XGB/RealMLP/TabM/CatBoost) — benchmark autonome courant.
+- **Autonome / from-scratch-code-assisted : 0.96970 public** (submission 55509925, blend XGB/RealMLP/TabM + CatBoost imputation prédictive) — benchmark autonome courant.
 - Benchmarks autonomes antérieurs : Sprint 2 **0.96923** (XGB/RealMLP/TabM), Sprint 1 **0.96907** (RealMLP + XGB exact-TE), initial **0.96630** (#8, 8 GBDT propres + stacker).
 - Rang vérifié du score assisté au snapshot initial : **277 / 1 724** (top 16,1 %).
 - Bande estimée du benchmark autonome sur le snapshot de 1 728 équipes : **434–435** (top ~25,1 %) pour Sprint 1 ; Sprint 3 non encore estimé.
@@ -28,11 +28,13 @@ Première mission Kaggle complète. Classification binaire tabulaire, métrique 
 | **#8** | **8 GBDT propres + stacker (from-scratch)** | **0.96630** | autonome |
 | **#9** | **RealMLP + XGB exact-TE (Sprint 1)** | **0.96907** | autonome |
 | **S2** | **Blend XGB/RealMLP/TabM (Sprint 2)** | **0.96923** | autonome |
-| **S3** | **Blend 4 modèles + CatBoost (Sprint 3)** | **0.96952** | **autonome courant** |
+| **S3** | **Blend 4 modèles + CatBoost (Sprint 3)** | **0.96952** | **autonome** |
+| **S4** | **Blend + imputation prédictive (Sprint 4)** | **0.96970** | **autonome courant** |
 
 ## Leçons clés
 - Le stacking de sorties publiques fournit le plus gros gain **assisté** ; il est conservé dans une catégorie séparée et ne compte pas comme preuve autonome.
 - Le target encoding exact-value cross-fitté et les signaux de missingness apportent un gain stable aux GBDT.
 - RealMLP puis TabM puis CatBoost apportent une diversité autonome réellement complémentaire, validée par des portes de gain strictes (5/5 folds + leave-one-fold-out), pas par un seul micro-gain.
-- Une famille très corrélée (LightGBM) ou une feature « réputée » non reproduite fidèlement (decimal lattice) est rejetée même si elle produit un micro-gain.
+- Une famille très corrélée (LightGBM, même fortement régularisé) ou une feature « réputée » non reproduite fidèlement (decimal lattice) est rejetée même si elle produit un micro-gain : le tuning GBDT n'apporte pas de diversité au blend.
+- L'imputation prédictive par modèles (LGBMRegressor) des numériques manquants apporte un gain réel mais très corrélé à CatBoost ; c'est le **remplacement** à poids gelé, pas l'ajout, qui a passé la porte.
 - Voir `code/prospective_sprint1/` et `code/prospective_sprint2_3/` pour les pipelines reproductibles, et `../../methodology/stacking-massif-technique.md` pour l'étude assistée.

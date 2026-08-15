@@ -49,15 +49,15 @@ ml-competition-portfolio/
 ## 🏆 Compétitions
 | Compétition | Type | Score | Leçons clés |
 |-------------|------|-------|-------------|
-| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96952 autonome** (from-scratch-code-assisted) | Exact-value TE + RealMLP + TabM + CatBoost, blend validé par portes de gain ; holdout historique ouvert une fois |
+| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96970 autonome** (from-scratch-code-assisted) | Exact-value TE + RealMLP + TabM + CatBoost + imputation prédictive, blend validé par portes de gain ; holdout historique ouvert une fois |
 | Store Sales Forecasting (prototype) | Time series | **Non validé** | Audit: métrique officielle RMSLE; ancien SMAPE + features fuyantes à reconstruire |
 
 ## 🚀 Roadmap
 
 Plan détaillé, portes de passage et seuils chiffrés : [ROADMAP.md](ROADMAP.md).
 
-- [x] Compétition #1 : Smartphone Addiction (**0.97057 assisté**, **0.96952 autonome**)
-- [x] Sprint prospectif : folds gelés, exact-value TE, RealMLP GPU, TabM, CatBoost, holdout historique ouvert une fois
+- [x] Compétition #1 : Smartphone Addiction (**0.97057 assisté**, **0.96970 autonome**)
+- [x] Sprint prospectif : folds gelés, exact-value TE, RealMLP GPU, TabM, CatBoost, imputation prédictive (Sprint 4), holdout historique ouvert une fois
 - [ ] Reconstruire Store Sales avec RMSLE et features temporelles causales
 - [ ] Obtenir un premier résultat **from-scratch** top 10 % sur une Playground
 - [ ] Obtenir un résultat **from-scratch** top 5 % sur une seconde compétition

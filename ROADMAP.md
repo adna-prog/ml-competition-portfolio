@@ -10,7 +10,8 @@ Date de référence : 14 août 2026.
 | S6E8 — 8 modèles propres + stacker | 0.96630 public, rang estimé ~635–638 (top ~36,8 %) | Benchmark autonome initial |
 | S6E8 — RealMLP + XGB exact-TE prospectifs (S1) | 0.96907 public, bande estimée 434–435/1 728 (top ~25,1 %) | Benchmark autonome de référence au départ des Sprints 2–3 |
 | S6E8 — + TabM (Sprint 2) | 0.96923 public | Blend XGB/RealMLP/TabM, gain OOF +0.0001566 |
-| S6E8 — + CatBoost (Sprint 3) | 0.96952 public, submission 55504165 | **Benchmark autonome courant** ; gain OOF +0.0002594 |
+| S6E8 — + CatBoost (Sprint 3) | 0.96952 public, submission 55504165 | Gain OOF +0.0002594 |
+| S6E8 — + imputation prédictive (Sprint 4) | 0.96970 public, submission 55509925 | **Benchmark autonome courant** ; gain OOF +0.000185 vs Sprint 3 |
 | Store Sales | Non validé | Mauvaise métrique (SMAPE au lieu de RMSLE) + leakage temporel |
 
 Seuils S6E8 au 13 août : top 10 % = **0.97086**, top 5 % = **0.97097**, top 1 % = **0.97106**.
@@ -79,8 +80,18 @@ sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE 
 - Blend de rangs XGB 13,59375 % / RealMLP 31,71875 % / TabM 17,1875 % / CatBoost 37,5 % : OOF **0.9685551**, gain **+0.0002594**.
 - Portes : positif à poids fixes 5/5 ; leave-one-fold-out sélectionne 37,5 % sur 5/5 (gain tenu à l'écart +0.0002495).
 
+### Sprint 4 — imputation prédictive augmentée (public 0.96970, submission 55509925)
+- Imputation prédictive des 9 numériques par 9 `LGBMRegressor` one-shot par fold (45 au total), sans fallback, baseline 42/12 et candidate 63/12 entraînées dans le même run.
+- Candidate OOF **0.9681619** (baseline 0.9678295, gain **+0.0003324**, 5/5 folds) ; 10 CatBoost, runtime ~62 min GPU gratuit.
+- Très corrélée à l'ancien CatBoost (Spearman 0.9971) : l'**ajout** plafonne à +0.000118 (sous la porte) ; le **remplacement** fixe de l'ancien CatBoost à son poids gelé 37,5 % atteint OOF **0.9687401**, gain **+0.000185**, positif 5/5.
+- Poids Sprint 4 : XGB 13,59375 % / RealMLP 31,71875 % / TabM 17,1875 % / candidate imputée 37,5 %.
+- **Public : 0.96970**, gain +0.00018 vs Sprint 3.
+
 ### NO-GO
 - **LightGBM exact-TE** : trop corrélé à XGB (0.9934), gain marginal +0.000026 < porte utile.
+- **LightGBM fortement régularisé** (num_leaves 23, min_child_samples 864, régularisation forte) : meilleur LGBM seul (OOF 0.96672, gain +0.00030 vs LGBM historique, GO 5/5 folds), mais corrélation de rang XGB 0.9944 → ajout au blend à gain **0.000000** → **NO-GO blend** (le tuning GBDT n'ajoute pas de diversité).
+- **Nystroem-LR** : AUC fold 0 plafonne à 0.9519 (écart −0.0168 vs blend) → linéarisation par noyau inadaptée → NO-GO.
+- **RealMLP + compositions (95 var)** : gain fold 0 +0.000066 < porte +0.00015, corrélation >0.995 → NO-GO.
 - **Decimal lattice** : −0.000070 (large) et −0.000267 (reproduction fidèle) sur fold 0.
 - **xRFM** : full run NO-GO provisoire sur P100 (`sm_60` sans tensor cores, coût quadratique risqué).
 
