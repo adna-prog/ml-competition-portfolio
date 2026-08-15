@@ -100,6 +100,7 @@ sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE 
 - **Interactions exposition × engagement (A1)** : candidate 0.965180 vs baseline 0.965301 (−0.000120) et placebo 0.965211 (−0.000031) → aucun signal propre, les produits/ratios croisés de numériques sont déjà captés par les splits CatBoost → NO-GO.
 - **Features non supervisées (A3)** : candidate 0.965185 vs baseline 0.965334 (−0.000149) et placebo 0.965276 (−0.000091) → aucun signal propre, la structure globale des profils (cluster/anomalie) est déjà captée → NO-GO. Le gisement de features S6E8 est épuisé.
 - **Stacker niveau 2 (C1)** : LR sur les 4 rangs OOF (LOO) gagne +0.000061 (5/5 folds) vs rank-average, +0.000048 avec interactions de rangs → sous la porte +0.00015, la combinaison rank-average est quasi-optimale → NO-GO.
+- **MLP profond rank-gauss (B1)** : AUC fold 0 0.9363 (sous-convergence, vs 0.967+ des autres) ; diversité de rang < 0.97 mais accidentelle (due à la faiblesse) → NO-GO. Un 3ᵉ NN qui convergerait serait corrélé aux NN existants. Le cycle S6E8 est clos : features, combinaison et architecture sont toutes saturées.
 
 ### Prochaine porte sur S6E8
 - Écart au seuil top 10 % observé (0.97086) : ~0.00134. Il faut un signal autonome réellement
