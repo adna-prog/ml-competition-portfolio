@@ -1,6 +1,6 @@
 # Roadmap ambitieuse — de la reproduction au niveau compétitif autonome
 
-Date de référence : 14 août 2026.
+Date de référence : 15 août 2026.
 
 ## Diagnostic de départ
 
@@ -102,9 +102,15 @@ sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE 
 - **Stacker niveau 2 (C1)** : LR sur les 4 rangs OOF (LOO) gagne +0.000061 (5/5 folds) vs rank-average, +0.000048 avec interactions de rangs → sous la porte +0.00015, la combinaison rank-average est quasi-optimale → NO-GO.
 - **MLP profond rank-gauss (B1)** : AUC fold 0 0.9363 (sous-convergence, vs 0.967+ des autres) ; diversité de rang < 0.97 mais accidentelle (due à la faiblesse) → NO-GO. Un 3ᵉ NN qui convergerait serait corrélé aux NN existants. Le cycle S6E8 est clos : features, combinaison et architecture sont toutes saturées.
 
-### Prochaine porte sur S6E8
-- Écart au seuil top 10 % observé (0.97086) : ~0.00134. Il faut un signal autonome réellement
-  complémentaire de plus, validé par les mêmes portes de gain, pas un empilement de seeds corrélées.
+### Clôture du cycle S6E8 (15 août 2026)
+- Après Sprint 4 (0.96970), six NO-GO supplémentaires ont clos le cycle : interactions (A1),
+  features non supervisées (A3), stacker niveau 2 (C1), MLP profond (B1), en plus de LGBM
+  régularisé, Nystroem-LR et RealMLP+compositions.
+- Les trois dimensions — **features, combinaison, architecture** — sont saturées : les 13
+  variables sources sont entièrement exploitées par les représentations existantes
+  (exact-TE, exact-catégorie, compositions, imputation prédictive).
+- Benchmark autonome final : **0.96970 public** (écart 0.00116 au top 10 %), non extractible
+  proprement avec les méthodes actuelles. La suite est le transfert vers S3E23 et Store Sales.
 
 ## Sprint 2 — Reconstruire Store Sales correctement
 
@@ -155,8 +161,12 @@ Les compétitions Pokémon TCG et Kaggriculture sont écartées : simulations/ag
 
 ## Principe directeur
 
-La prochaine étape n'est pas d'empiler davantage de travail public. Les Sprints 1→3 ont réduit l'écart
-**0.97057 assisté vs 0.96952 autonome** à 0.00105 grâce à RealMLP, TabM et CatBoost (diversité réelle,
-validée par portes de gain 5/5 folds + leave-one-fold-out), tout en rejetant les familles corrélées
-(LightGBM) et les features non reproductibles (decimal lattice). La suite doit continuer à chercher un
-signal autonome réellement complémentaire plutôt que multiplier les seeds corrélées.
+La prochaine étape n'est pas d'empiler davantage de travail public. Les Sprints 1→4 ont réduit
+l'écart **0.97057 assisté vs 0.96970 autonome** à 0.00087 grâce à RealMLP, TabM, CatBoost et
+l'imputation prédictive (diversité réelle, validée par portes de gain 5/5 folds +
+leave-one-fold-out), tout en rejetant les familles corrélées (LightGBM) et les features non
+reproductibles (decimal lattice). Le cycle de screening S6E8 (août 2026) a ensuite **clos la
+question** : features, combinaison et architecture sont toutes saturées — chaque piste a été
+testée avec placebo/gate et documentée. La suite n'est plus sur S6E8 : elle est sur le
+**transfert de ces techniques validées** vers de nouveaux datasets (S3E18/S3E23) et la
+**reconstruction propre des séries temporelles** (Store Sales, RMSLE).

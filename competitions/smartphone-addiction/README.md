@@ -2,12 +2,12 @@
 
 Première mission Kaggle complète. Classification binaire tabulaire, métrique **ROC AUC**.
 
-## Résultat (au 14 août 2026)
+## Résultat (au 15 août 2026)
 - **Assisté / artefact public : 0.97057** (submission #5, stacking 15 meta-features) — jamais présenté comme autonome.
 - **Autonome / from-scratch-code-assisted : 0.96970 public** (submission 55509925, blend XGB/RealMLP/TabM + CatBoost imputation prédictive) — benchmark autonome courant.
 - Benchmarks autonomes antérieurs : Sprint 2 **0.96923** (XGB/RealMLP/TabM), Sprint 1 **0.96907** (RealMLP + XGB exact-TE), initial **0.96630** (#8, 8 GBDT propres + stacker).
 - Rang vérifié du score assisté au snapshot initial : **277 / 1 724** (top 16,1 %).
-- Bande estimée du benchmark autonome sur le snapshot de 1 728 équipes : **434–435** (top ~25,1 %) pour Sprint 1 ; Sprint 3 non encore estimé.
+- Bande estimée du benchmark autonome sur le snapshot de 1 728 équipes : **434–435** (top ~25,1 %) pour Sprint 1 ; écart au seuil top 10 % (0.97086) : **0.00116** au 15 août.
 - Deadline : 31 août 2026 — le rang final/private n'est pas encore connu.
 
 ## Approche
