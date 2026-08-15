@@ -76,6 +76,7 @@ Métrique: ROC AUC, 5-fold CV stratifiée sur développement gelé
 - **Sprint 4 — combinateur rang/prob/logit** : rang 0.9685551 / prob 0.9685530 / logit 0.9685566 ; gain max +0.00000152, sélection LOO instable 4/5 → NO-GO (conserver le blend de rangs).
 - **Sprint 4 — géométrie du budget CatBoost** : candidate 0.9680293 vs baseline fraîche 0.9678936 (+0.0001357) et placebo 0.9679650 (+0.0000643), sous les portes +0.00015/+0.00010 → NO-GO.
 - **Ablation de blocs CatBoost (fold 0, descriptif)** : signal concentré dans exposition écran (retrait → 0.8538) et engagement (→ 0.9478) ; récupération/contraintes non prioritaire ; contexte quasi neutre — observation, pas une promotion.
+- **Interactions exposition × engagement (A1)** : candidate 0.965180 vs baseline 0.965301 (−0.000120) et placebo 0.965211 (−0.000031) → aucun signal propre, les produits/ratios croisés de numériques sont déjà captés par les splits CatBoost → NO-GO.
 
 ## Benchmark autonome initial (submission #8 vérifiée)
 - 8 modèles propres : 3 XGB + 3 LGB + 2 CatBoost ; aucune prédiction de notebook public.
