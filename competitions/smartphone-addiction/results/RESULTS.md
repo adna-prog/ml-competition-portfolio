@@ -77,9 +77,15 @@ Métrique: ROC AUC, 5-fold CV stratifiée sur développement gelé
 - **Sprint 4 — géométrie du budget CatBoost** : candidate 0.9680293 vs baseline fraîche 0.9678936 (+0.0001357) et placebo 0.9679650 (+0.0000643), sous les portes +0.00015/+0.00010 → NO-GO.
 - **Ablation de blocs CatBoost (fold 0, descriptif)** : signal concentré dans exposition écran (retrait → 0.8538) et engagement (→ 0.9478) ; récupération/contraintes non prioritaire ; contexte quasi neutre — observation, pas une promotion.
 - **Interactions exposition × engagement (A1)** : candidate 0.965180 vs baseline 0.965301 (−0.000120) et placebo 0.965211 (−0.000031) → aucun signal propre, les produits/ratios croisés de numériques sont déjà captés par les splits CatBoost → NO-GO.
-- **Features non supervisées (A3)** : candidate 0.965185 vs baseline 0.965334 (−0.000149) et placebo 0.965276 (−0.000091) → aucun signal propre, la structure globale des profils (cluster/anomalie) est déjà captée → NO-GO. Le gisement de features S6E8 est épuisé.
+- **Features non supervisées (A3)** : candidate 0.965185 vs baseline 0.965334 (−0.000149) et placebo 0.965276 (−0.000091) → aucun signal propre, la structure globale des profils (cluster/anomalie) est déjà captée → NO-GO. Plusieurs familles de features plausibles ont ainsi échoué sous le protocole actuel.
 - **Stacker niveau 2 (C1)** : LR sur les 4 rangs OOF (LOO) gagne +0.000061 (5/5 folds) vs rank-average, +0.000048 avec interactions de rangs → sous la porte +0.00015, la combinaison rank-average est quasi-optimale → NO-GO.
-- **MLP profond rank-gauss (B1)** : AUC fold 0 0.9363 (sous-convergence, vs 0.967+ des autres) ; diversité de rang < 0.97 mais accidentelle (due à la faiblesse) → NO-GO. Un 3ᵉ NN qui convergerait serait corrélé aux NN existants. Le cycle S6E8 est clos : features, combinaison et architecture sont toutes saturées.
+- **MLP profond rank-gauss (B1)** : AUC fold 0 0.9363 (sous-convergence, vs 0.967+ des autres) ; diversité de rang < 0.97 mais accidentelle (due à la faiblesse) → NO-GO. La diversité observée est un artefact de sous-convergence (l'hypothèse qu'un 3ᵉ NN qui convergerait serait corrélé aux NN existants reste une hypothèse, non démontrée).
+
+## Limites d'interprétation
+
+- **OOF développement ≠ estimateur non biaisé** : après Sprints 1–4, les cinq folds de développement sont devenus l'objectif d'optimisation (adaptivité). L'OOF 0.9687401 mesure la performance de développement, pas l'AUC attendue en généralisation. Le public LB (0.96970) joue de fait le rôle de nouveau holdout pour les sprints 2–4.
+- **Importance prédictive ≠ causalité** : l'ablation de blocs (retrait exposition écran → AUC ≈0.854) montre que ces variables contiennent l'essentiel de l'information prédictive *dans ce dataset synthétique*, pas qu'elles causent l'addiction dans une population réelle. `P(Y|X) ≠ P(Y|do(X))`.
+- **Imputation prédictive** : le gain (+0.000185) est validé sur ce dataset ; ce n'est pas une preuve que l'imputation prédictive est supérieure en général pour la classification tabulaire.
 
 ## Benchmark autonome initial (submission #8 vérifiée)
 - 8 modèles propres : 3 XGB + 3 LGB + 2 CatBoost ; aucune prédiction de notebook public.

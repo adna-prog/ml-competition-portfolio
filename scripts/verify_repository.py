@@ -65,6 +65,24 @@ def main() -> int:
                     f"Secret potentiel: {path.relative_to(ROOT)}:{line_number}"
                 )
 
+    # experiments.csv : structure uniforme + experiment_id unique
+    import csv
+    csv_path = ROOT / "experiments.csv"
+    try:
+        with csv_path.open(newline="", encoding="utf-8") as fh:
+            rows = list(csv.reader(fh))
+        if rows:
+            n_cols = len(rows[0])
+            for i, row in enumerate(rows):
+                if len(row) != n_cols:
+                    failures.append(
+                        f"experiments.csv ligne {i}: {len(row)} colonnes != {n_cols}")
+            ids = [r[0] for r in rows[1:] if r and r[0]]
+            if len(ids) != len(set(ids)):
+                failures.append("experiments.csv: experiment_id non unique")
+    except OSError as exc:
+        failures.append(f"experiments.csv illisible: {exc}")
+
     if failures:
         print("\n".join(failures), file=sys.stderr)
         return 1

@@ -1,8 +1,10 @@
-"""Pipeline final de submission — Predicting Smartphone Addiction (S6E8).
-Entraîne XGBoost (full) + LightGBM en CV 5-folds sur features brutes,
-blend les prédictions OOF/test avec le poids optimal, écrit submission.csv.
+"""Pipeline LÉGATAIRE (legacy) — solution XGBoost + LightGBM sur features brutes.
 
-Reproductible: même code que notebook Kaggle final.
+ATTENTION : ce script NE produit PAS le résultat autonome courant (0.96970).
+Il correspond au benchmark initial (submission #8, 0.96630) : XGBoost + LightGBM
+sur features brutes, blend à poids fixe XGB=0.72. Le pipeline courant (Sprints
+1-4 : exact-TE + RealMLP + TabM + CatBoost + imputation prédictive) est documenté
+dans results/RESULTS.md. Conservé pour référence historique uniquement.
 """
 import time, warnings, json
 warnings.filterwarnings('ignore')
