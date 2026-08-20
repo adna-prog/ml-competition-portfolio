@@ -1,0 +1,18 @@
+{
+  "id": "adnaneel/sprint5-omralinov-s6e8",
+  "title": "sprint5-omralinov-s6e8",
+  "code_file": "sprint5_kaggle_kernel.py",
+  "language": "python",
+  "kernel_type": "script",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": false,
+  "competition_sources": [
+    "playground-series-s6e8"
+  ],
+  "data_sources": [],
+  "keywords": [
+    "playground-series-s6e8",
+    "smartphone-addiction"
+  ]
+}

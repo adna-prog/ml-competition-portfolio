@@ -30,6 +30,7 @@ Première mission Kaggle complète. Classification binaire tabulaire, métrique 
 | **S2** | **Blend XGB/RealMLP/TabM (Sprint 2)** | **0.96923** | autonome |
 | **S3** | **Blend 4 modèles + CatBoost (Sprint 3)** | **0.96952** | **autonome** |
 | **S4** | **Blend + imputation prédictive (Sprint 4)** | **0.96970** | **autonome courant** |
+| S5 | Omralinov-inspired CatBoost/LightGBM/NN | 0.93799 OOF | **NO-GO, non soumis** |
 
 ## Leçons clés
 - Le stacking de sorties publiques fournit le plus gros gain **assisté** ; il est conservé dans une catégorie séparée et ne compte pas comme preuve autonome.

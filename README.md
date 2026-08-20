@@ -49,7 +49,7 @@ ml-competition-portfolio/
 ## 🏆 Compétitions
 | Compétition | Type | Score | Leçons clés |
 |-------------|------|-------|-------------|
-| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96970 autonome** (from-scratch-code-assisted) | Exact-value TE + RealMLP + TabM + CatBoost + imputation prédictive, blend validé par portes de gain ; holdout historique ouvert une fois |
+| Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96970 autonome** (from-scratch-code-assisted) ; **Sprint 5: 0.93799 OOF NO-GO** | Exact-value TE + RealMLP + TabM + CatBoost + imputation prédictive, blend validé par portes ; Sprint 5 checkpointé mais non soumis |
 | Store Sales Forecasting (prototype) | Time series | **Non validé** | Audit: métrique officielle RMSLE; ancien SMAPE + features fuyantes à reconstruire |
 
 ## 🚀 Roadmap

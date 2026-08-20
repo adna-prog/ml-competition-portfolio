@@ -112,8 +112,14 @@ sans prédictions de notebooks publics. Le sprint prospectif RealMLP + exact-TE 
 - Leçon pour la prochaine compétition : conserver un « final lockbox » jamais touché jusqu'au gel
   complet (train/dev + validation lockbox à jalons + final lockbox) — le holdout historique n'est plus
   un vrai holdout après Sprint 1.
-- Benchmark autonome final : **0.96970 public** (écart 0.00116 au top 10 %), non extractible
-  proprement avec les méthodes actuelles. La suite est le transfert vers S3E23 et Store Sales.
+- Le benchmark autonome final est **0.96970 public** ; la suite est le transfert vers S3E23 et Store Sales.
+
+### Sprint 5 — Omralinov-inspired S6E8 (NO-GO, 20 août 2026)
+
+- Exécution réelle sur RTX 3090 avec checkpoints persistants : CatBoost OOF **0.9556661855**, LightGBM **0.9442184798**, NN **0.8872528428**, blend fixe **0.9379862718**.
+- Aucun score public ni soumission n'est revendiqué : le blend est très inférieur au benchmark autonome `0.96970`.
+- Plusieurs bugs d'intégration ont été corrigés et documentés (catégories NaN, fonction LightGBM absente du kernel, doublon `slack`, mapping NN, dimensions de tokens, NaN/logits). La pipeline checkpointée a permis de conserver CatBoost/LightGBM malgré les échecs NN.
+- **Décision : NO-GO et clôture de S6E8.** Ne plus investir dans cette branche ; passer à Zindi puis reconstruire Store Sales avec RMSLE.
 
 ## Sprint 2 — Reconstruire Store Sales correctement
 
