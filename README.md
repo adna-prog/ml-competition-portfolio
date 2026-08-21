@@ -29,6 +29,10 @@ ml-competition-portfolio/
 │   │   ├── README.md         # rapport complet
 │   │   ├── code/             # scripts et notebooks
 │   │   └── results/          # OOF, submissions, scores
+│   ├── world-cup-2026-goal-prediction/ # Zindi practice reconstruction
+│   │   ├── README.md         # méthode et score privé pratique
+│   │   ├── code/             # pipeline causal + Optuna
+│   │   └── results/          # audits et expériences rejetées
 │   └── ...
 ├── experiments.csv            # registre des expériences et niveaux d'assistance
 ├── scripts/
@@ -50,6 +54,7 @@ ml-competition-portfolio/
 | Compétition | Type | Score | Leçons clés |
 |-------------|------|-------|-------------|
 | Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96970 autonome** (from-scratch-code-assisted) ; **Sprint 5: 0.93799 OOF NO-GO** | Exact-value TE + RealMLP + TabM + CatBoost + imputation prédictive, blend validé par portes ; Sprint 5 checkpointé mais non soumis |
+| World Cup 2026 Goal Prediction Challenge (Zindi, practice) | Tabulaire / tournoi | **0.54358 private practice** | Features historiques causales + matchs/Elo + Optuna + ranking global avec quotas ; données brutes exclues, compétition fermée |
 | Store Sales Forecasting (prototype) | Time series | **Non validé** | Audit: métrique officielle RMSLE; ancien SMAPE + features fuyantes à reconstruire |
 
 ## 🚀 Roadmap
