@@ -39,3 +39,16 @@ Première mission Kaggle complète. Classification binaire tabulaire, métrique 
 - Une famille très corrélée (LightGBM, même fortement régularisé) ou une feature « réputée » non reproduite fidèlement (decimal lattice) est rejetée même si elle produit un micro-gain : le tuning GBDT n'apporte pas de diversité au blend.
 - L'imputation prédictive par modèles (LGBMRegressor) des numériques manquants apporte un gain réel mais très corrélé à CatBoost ; c'est le **remplacement** à poids gelé, pas l'ajout, qui a passé la porte.
 - Voir `code/prospective_sprint1/` et `code/prospective_sprint2_3/` pour les pipelines reproductibles, et `../../methodology/stacking-massif-technique.md` pour l'étude assistée.
+
+## Garde-fous transférés de S6E7
+
+Le protocole S6E8 doit également appliquer les recommandations détaillées dans
+[`results/S6E7_TRANSFERRED_GUARDRAILS.md`](results/S6E7_TRANSFERRED_GUARDRAILS.md) :
+
+- contrat métrique explicite avec ROC AUC comme seule métrique de sélection ;
+- calibration et validation de décision sur des partitions OOF séparées ;
+- archivage obligatoire des probabilités OOF/test et des métadonnées ;
+- portes OOF → holdout → public → private ;
+- taxonomie de provenance clean/code-assisted/public-artifact/probing ;
+- checkpoints persistants et arrêt vérifié des pods distants ;
+- aucune importation automatique de seuils ou class weights optimisés pour une autre métrique.
