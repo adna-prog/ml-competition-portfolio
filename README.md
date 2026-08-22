@@ -55,6 +55,7 @@ ml-competition-portfolio/
 |-------------|------|-------|-------------|
 | Predicting Smartphone Addiction (S6E8) | Tabulaire | **0.97057 assisté** (277/1 724) ; **0.96970 autonome** (from-scratch-code-assisted) ; **Sprint 5: 0.93799 OOF NO-GO** | Exact-value TE + RealMLP + TabM + CatBoost + imputation prédictive, blend validé par portes ; Sprint 5 checkpointé mais non soumis |
 | World Cup 2026 Goal Prediction Challenge (Zindi, practice) | Tabulaire / tournoi | **0.54358 private practice** | Features historiques causales + matchs/Elo + Optuna + ranking global avec quotas ; données brutes exclues, compétition fermée |
+| Predicting Student Health Risk (Kaggle S6E7) | Tabulaire multiclass | **0.95029 private** | Balanced accuracy corrigée + target encoding fold-safe + CatBoost/LightGBM + MLP GPU RunPod ; probing public exclu |
 | Store Sales Forecasting (prototype) | Time series | **Non validé** | Audit: métrique officielle RMSLE; ancien SMAPE + features fuyantes à reconstruire |
 
 ## 🚀 Roadmap
