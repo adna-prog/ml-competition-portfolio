@@ -62,6 +62,10 @@ ml-competition-portfolio/
 
 Plan détaillé, portes de passage et seuils chiffrés : [ROADMAP.md](ROADMAP.md).
 
+Pipeline compétition-grade : [methodology/competition-grade-kaggle-pipeline.md](methodology/competition-grade-kaggle-pipeline.md).
+
+Registre S6E1–S6E6 : [methodology/s6e1-s6e6_registry.md](methodology/s6e1-s6e6_registry.md).
+
 - [x] Compétition #1 : Smartphone Addiction (**0.97057 assisté**, **0.96970 autonome**)
 - [x] Sprint prospectif : folds gelés, exact-value TE, RealMLP GPU, TabM, CatBoost, imputation prédictive (Sprint 4), holdout historique ouvert une fois
 - [ ] Reconstruire Store Sales avec RMSLE et features temporelles causales
